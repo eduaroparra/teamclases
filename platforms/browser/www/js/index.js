@@ -1,7 +1,8 @@
 var $$ = Dom7;
 
-
 //MuestraMensaje();
+
+var idinmueble=0;
 
 var app = {
     /* Application Constructor
@@ -39,7 +40,7 @@ var app = {
 
 function showsplashscreen(){
 
-  setTimeout(function(){  InitApp();   }, 3000);
+  setTimeout(function(){  InitApp();   }, 000);
 
 }
 
@@ -91,18 +92,18 @@ var app7 = new Framework7({
     // App root element
     root: '#app',
     // App Name
-    name: 'Team',
+    name: 'teamclases',
     // App id
     id: 'com.team.app',
-    // Enable swipe panel
+    /* Enable swipe panel
     panel: {
       swipe: 'left',
-    },
+    },*/
     // Add default routes
     routes: [
       {
-        path: '/home/',
-        url: 'views/home.html',
+        path: '/notificaciones/',
+        url: 'views/notificaciones.html',
       },{
         path: '/login/',
         url: 'views/login.html',
@@ -123,19 +124,51 @@ var app7 = new Framework7({
         url: 'views/buscar.html',
       },
       ,{
+        path: '/producto/',
+        url: 'views/producto.html',
+      },
+      ,{
+        path: '/product/',
+        url: 'views/product.html',
+      },
+      ,{
+        path: '/carrito/',
+        url: 'views/carrito.html',
+      },
+      ,{
+        path: '/pago/',
+        url: 'views/pago.html',
+      },
+      ,{
         path: '/lol/',
         url: 'views/lol.html',
       },
     ],
+
     // ... other parameters
   });
 
 
+
+
+
   var mainView = app7.views.create('.view-main');
+
+ 
+
+
+
+  app7.panel.allowOpen = true;
+
+
+
+     
 
 
   // Show preloader before Ajax request
    //app7.preloader.show('blue');
+
+   
 
 
    // Create full-layout notification
@@ -158,7 +191,7 @@ var notificationFull = app7.notification.create({
     app7.preloader.show('blue');
 
     app7.request({
-      url: 'http://localhost/team/api/login.php',
+      url: 'http://localhost/teamclases/api/login.php',
       data:{username:usuario,password:password},
       method:'POST',
       crossDomain: true,
@@ -204,7 +237,7 @@ var notificationFull = app7.notification.create({
       app7.preloader.show('blue');
   
       app7.request({
-        url: 'http://localhost/team/api/users.php',
+        url: 'http://localhost/teamclases/api/users.php',
         data:{usuario:usuario,password:password,nombre:nombre,apellidos:apellidos,correo:correo,telefono:telefono},
         method:'POST',
         crossDomain: true,
@@ -247,41 +280,248 @@ var notificationFull = app7.notification.create({
   }
 
 
+function prueba(){
 
+  alert("cambio");
+}
 
 
   function MuestraMensaje(){
       alert("ehh funciona!!!");
       console.log("ehh funciona!!");
   }
-  var app = new Framework7();
 
-var $$ = Dom7;
 
-// Dom Events
-$$('.panel-left').on('panel:open', function () {
-  console.log('Panel left: open');
-});
-$$('.panel-left').on('panel:opened', function () {
-  console.log('Panel left: opened');
+
+  
+
+
+  
+
+  $$(document).on('page:init', '.page[data-name="login"]', function (e) {
+     
+    $$('#texto-login').html('Si ');
+
+    
+
+    var calendarDefault = app7.calendar.create({
+      inputEl: '#demo-calendar-default',
+    });
+    
+          
+  
+  });
+
+
+
+
+  $$(document).on('page:init', '.page[data-name="home"]', function (e) {
+
+     // alert("alerta");
+
+    
+     //app7.panel.enableSwipe('left');
+
+
+
+     
+
+     getSlider();
+
+     getInmuebles();
+
+  });
+
+
+  $$(document).on('page:init', '.page[data-name="inmueble"]', function (e) {
+
+  
+
+    app7.preloader.show('blue');
+    
+
+    app7.request({
+      url: 'http://eleadex.online/teamclases/api/inmueble.php',
+      data:{id:idinmueble},
+      method:'POST',
+      crossDomain: true,
+      success:function(data){
+           
+        app7.preloader.hide();
+
+        var objson = JSON.parse(data);
+
+        var inmueble= "";
+
+
+        console.log(objson.data.titulo);
+
+
+        $$('#titulo-inmueble').html(objson.data.titulo);
+        $$('#descripcion-inmueble').html(objson.data.descripcion);
+        $$('#precio-inmueble').html(objson.data.precio);
+
+
+        $$('#imagen1-inmueble').html('<img src="'+objson.data.imagen1+'" width="100%"/>');
+
+                 
+      
+      },
+      error:function(error){
+
+        app7.preloader.hide();
+      
+      }
+      
+      });
+
+    
+
+      
+
+
 });
 
-// Instance Events
-var panelRight = app.panel.get('.panel-right-1');
-panelRight.on('open', function () {
-  console.log('Panel right: open');
-});
-panelRight.on('opened', function () {
-  console.log('Panel right: opened');
-});
 
-// App Events
-app.on('panelClose', function (panel) {
-  console.log('Panel ' + panel.side + ': close');
-});
-app.on('panelClosed', function (panel) {
-  console.log('Panel ' + panel.side + ': closed');
-});
-app.on('panelResize', function (panel, newPanelWidth) {
-  console.log('Panel resized to ' + newPanelWidth + 'px');
-});
+
+
+
+function getSlider(){
+
+      app7.preloader.show('blue');
+
+
+      app7.request({
+        url: 'http://localhost/teamclases/api/slider.php',
+        data:{},
+        method:'POST',
+        crossDomain: true,
+        success:function(data){
+             
+          app7.preloader.hide();
+  
+          var objson = JSON.parse(data);
+
+          var slider= "";
+
+          var swiper = app7.swiper.get('.swiper-container');
+          swiper.removeAllSlides();
+
+          for(x in objson.data){
+                
+               
+
+
+               var slide ='<div class="swiper-slide"><img src="'+objson.data[x].imagen+'" /></div>';
+
+               swiper.appendSlide(slide);
+
+          }
+  
+          
+        
+        },
+        error:function(error){
+  
+          app7.preloader.hide();
+        
+        }
+        
+        });
+
+
+
+
+}
+
+
+
+function showMenu(){
+
+  
+
+  app7.panel.open('left', true);
+
+}
+
+
+function getInmuebles(){
+
+
+  app7.preloader.show();
+
+
+  $$('#inmuebles').html("");
+
+
+      app7.request({
+        url: 'http://localhost/teamclases/api/inmuebles.php',
+        data:{},
+        method:'POST',
+        crossDomain: true,
+        success:function(data){
+             
+          app7.preloader.hide();
+  
+          var objson = JSON.parse(data);
+
+          var inmueble= "";
+
+         
+
+          for(x in objson.data){
+                
+                console.log(objson.data[x].titulo);
+
+
+
+                inmueble =' <div class="card demo-card-header-pic"><div style="background-image:url('+objson.data[x].imagen1+')" class="card-header align-items-flex-end">'+objson.data[x].titulo+'</div><div class="card-content card-content-padding"><p class="date">Posted on January 21, 2015</p><p>'+objson.data[x].titulo+'</p></div><div class="card-footer"><a href="#" class="link">'+objson.data[x].precio+'</a><a href="javascript:verinmueble('+objson.data[x].id+')" class="link">Ver más</a></div></div>';
+
+                $$('#inmuebles').append(inmueble);
+
+          }
+  
+          
+        
+        },
+        error:function(error){
+  
+          app7.preloader.hide();
+        
+        }
+        
+        });
+
+
+}
+
+
+
+function vercatalogo(id){
+
+      //alert(id);
+
+
+      idinmueble = id;
+
+      mainView.router.navigate('/catalogo/',{animate:true});
+
+      
+      $$('img.lazy').trigger('lazy');
+      $$('div.lazy').trigger('lazy');
+}
+
+
+
+
+
+
+
+
+function cambiaVista(){
+
+  
+}
+
+
+  
