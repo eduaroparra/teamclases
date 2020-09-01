@@ -2,7 +2,7 @@ var $$ = Dom7;
 
 //MuestraMensaje();
 
-var idinmueble=0;
+var idproducto=0;
 
 var app = {
     /* Application Constructor
@@ -185,8 +185,8 @@ var notificationFull = app7.notification.create({
 
   function Ingresar(){
 
-    var usuario = $$('#usuario').val();
-    var password = $$('#password').val();
+    var usuario = $$('eduardo.parra27').val();
+    var password = $$('12345').val();
 
     app7.preloader.show('blue');
 
@@ -231,13 +231,13 @@ var notificationFull = app7.notification.create({
       var telefono = $$('#telefono').val();
       var correo = $$('#correo').val();
       var usuario = $$('#usuarior').val();
-      var password = $$('#passwordr').val();
+      var password = $$('#password').val();
   
 
       app7.preloader.show('blue');
   
       app7.request({
-        url: 'http://localhost/teamclases/api/users.php',
+        url: 'http://localhost/teamclases/api/registro.php',
         data:{usuario:usuario,password:password,nombre:nombre,apellidos:apellidos,correo:correo,telefono:telefono},
         method:'POST',
         crossDomain: true,
@@ -328,12 +328,12 @@ function prueba(){
 
      getSlider();
 
-     getInmuebles();
+     getproduct();
 
   });
 
 
-  $$(document).on('page:init', '.page[data-name="inmueble"]', function (e) {
+  $$(document).on('page:init', '.page[data-name="producto"]', function (e) {
 
   
 
@@ -341,8 +341,8 @@ function prueba(){
     
 
     app7.request({
-      url: 'http://eleadex.online/teamclases/api/inmueble.php',
-      data:{id:idinmueble},
+      url: 'http://localhost/teamclases/api/producto.php',
+      data:{id:idproducto},
       method:'POST',
       crossDomain: true,
       success:function(data){
@@ -351,18 +351,18 @@ function prueba(){
 
         var objson = JSON.parse(data);
 
-        var inmueble= "";
+        var product= "product";
 
 
         console.log(objson.data.titulo);
 
 
-        $$('#titulo-inmueble').html(objson.data.titulo);
-        $$('#descripcion-inmueble').html(objson.data.descripcion);
-        $$('#precio-inmueble').html(objson.data.precio);
+        $$('#titulo-product').html(objson.data.titulo);
+        $$('#descripcion-product').html(objson.data.descripcion);
+        $$('#precio-product').html(objson.data.precio);
 
 
-        $$('#imagen1-inmueble').html('<img src="'+objson.data.imagen1+'" width="100%"/>');
+        $$('#imagen1-product').html('<img src="images/trocar.jpg'+objson.data.imagen1+'" width="100%"/>');
 
                  
       
@@ -445,17 +445,17 @@ function showMenu(){
 }
 
 
-function getInmuebles(){
+function getproduct(){
 
 
   app7.preloader.show();
 
 
-  $$('#inmuebles').html("");
+  $$('#product').html("");
 
 
       app7.request({
-        url: 'http://localhost/teamclases/api/inmuebles.php',
+        url: 'http://localhost/teamclases/api/product.php',
         data:{},
         method:'POST',
         crossDomain: true,
@@ -465,7 +465,7 @@ function getInmuebles(){
   
           var objson = JSON.parse(data);
 
-          var inmueble= "";
+          var product= "";
 
          
 
@@ -475,9 +475,9 @@ function getInmuebles(){
 
 
 
-                inmueble =' <div class="card demo-card-header-pic"><div style="background-image:url('+objson.data[x].imagen1+')" class="card-header align-items-flex-end">'+objson.data[x].titulo+'</div><div class="card-content card-content-padding"><p class="date">Posted on January 21, 2015</p><p>'+objson.data[x].titulo+'</p></div><div class="card-footer"><a href="#" class="link">'+objson.data[x].precio+'</a><a href="javascript:verinmueble('+objson.data[x].id+')" class="link">Ver más</a></div></div>';
+                product =' <div class="card demo-card-header-pic"><div style="background-image:url('+objson.data[x].imagen1+')" class="card-header align-items-flex-end">'+objson.data[x].titulo+'</div><div class="card-content card-content-padding"><p class="date">Posted on January 21, 2015</p><p>'+objson.data[x].titulo+'</p></div><div class="card-footer"><a href="#" class="link">'+objson.data[x].precio+'</a><a href="javascript:verinmueble('+objson.data[x].id+')" class="link">Ver más</a></div></div>';
 
-                $$('#inmuebles').append(inmueble);
+                $$('#product').append(product);
 
           }
   
@@ -497,14 +497,14 @@ function getInmuebles(){
 
 
 
-function vercatalogo(id){
+function ver main(id){
 
       //alert(id);
 
 
-      idinmueble = id;
+      idmain = id;
 
-      mainView.router.navigate('/catalogo/',{animate:true});
+      mainView.router.navigate('/main/',{animate:true});
 
       
       $$('img.lazy').trigger('lazy');
